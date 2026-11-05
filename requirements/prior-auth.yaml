@@ -62,11 +62,15 @@ requirements:
       An audit trail that can be edited without trace is a narrative, not a
       record. The chain makes casual tampering evident; it does not resist a
       party who can rewrite the whole file, and this claim does not say it does.
+      It also cannot see the whole log disappear: a missing log verifies as
+      empty, so the claim is about the entries within a log, not about the log
+      existing.
     risk_class: supportive
     acceptance: >
       verify_chain accepts an untouched log and raises ChainBrokenError after an
       entry's content is edited, after an entry is deleted, and after entries
-      are reordered.
+      are reordered. A log that does not exist verifies as empty, and blank
+      lines are ignored.
 
   - id: REQ-PA-005
     statement: >

@@ -175,6 +175,23 @@ def test_reordering_entries_is_detected(pa_audit_log, tmp_path):
         pa_audit_log.verify_chain(path)
 
 
+@verifies("REQ-PA-004")
+def test_a_log_that_does_not_exist_verifies_as_empty(pa_audit_log, tmp_path):
+    """Documented behaviour, and the limit of the claim.
+
+    There is nothing to compare a missing file against, so deleting the whole log
+    is not detected. The chain covers the entries within a log, not its existence.
+    """
+    assert pa_audit_log.verify_chain(tmp_path / "does-not-exist.jsonl") == []
+
+
+@verifies("REQ-PA-004")
+def test_blank_lines_in_a_log_are_ignored(pa_audit_log, tmp_path):
+    path = _log(pa_audit_log, tmp_path / "log.jsonl", n=2)
+    path.write_text(path.read_text().replace("\n", "\n\n"))
+    assert [e["case_id"] for e in pa_audit_log.verify_chain(path)] == ["pa-0", "pa-1"]
+
+
 # --- REQ-PA-005: the auto-finalization gate --------------------------------
 
 

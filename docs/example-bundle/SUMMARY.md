@@ -1,6 +1,6 @@
-# Evidence bundle 810dd451bce8
+# Evidence bundle 316816c79c23
 
-Generated 2026-10-22T02:35:01+00:00 by regulated-ai-evals 0.1.0.
+Generated 2026-10-22T02:38:14+00:00 by regulated-ai-evals 0.1.0.
 
 ## 1. What this bundle does not support
 
@@ -17,10 +17,6 @@ Read this section first. Everything below it is the supporting detail.
   - claimed: The concept map is fit for clinical exchange.
   - supportable: The verified/provisional split is measured and published. Whether it is adequate is not decided anywhere in the system.
   - because: THR-FHIR-PROVISIONAL-CEILING is uncalibrated; a decision_driving claim requires calibrated
-
-**1 decision path(s) not fully exercised.** An unexercised branch inside a claim-bearing function is a hole in the argument for that claim.
-
-- `DP-PA-CHAIN-VERIFY` (audit_log.py:67-91 verify_chain) — branches 8/10, statements 15/17; backs `REQ-PA-004`
 
 ## 2. Declared out of scope for this run
 
@@ -53,7 +49,7 @@ Not gaps. Claims this run did not undertake to verify. The distinction is delibe
 | `REQ-PA-001` | decision_driving | in_scope | 4 test(s), all passing | performance |
 | `REQ-PA-002` | decision_driving | in_scope | 8 test(s), all passing | performance |
 | `REQ-PA-003` | decision_driving | in_scope | 2 test(s), all passing | performance |
-| `REQ-PA-004` | supportive | in_scope | 4 test(s), all passing | performance |
+| `REQ-PA-004` | supportive | in_scope | 6 test(s), all passing | performance |
 | `REQ-PA-005` | decision_driving | in_scope | 5 test(s), all passing | behavioural |
 | `REQ-PA-010` | decision_driving | out_of_scope | not undertaken | — |
 | `REQ-PA-011` | decision_driving | out_of_scope | not undertaken | — |
@@ -88,7 +84,7 @@ Declared status is what the repository asserts. Effective status is what the evi
 ## 7. Verifying this bundle
 
 ```
-rae verify evidence/810dd451bce8
+rae verify evidence/316816c79c23
 ```
 
 Recomputes every file hash in `MANIFEST.json` and the root hash over them. A mismatch means the bundle was edited after it was sealed.

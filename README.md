@@ -91,7 +91,7 @@ Reproduce with `rae fetch && rae run`. Full output:
 
 ### Most claims verify with no threshold at all
 
-Four safety properties of prior-auth-agent verify against 18 tests without a
+Four safety properties of prior-auth-agent verify against 20 tests without a
 calibrated number anywhere: a `met` criterion needs both a policy quote and a
 chart citation; a citation that does not resolve against the bundle is stripped
 and a criterion left with none is downgraded; the drafter cannot emit a denial;
@@ -132,13 +132,16 @@ consumes it. So "the concept map is fit for clinical exchange" is downgraded
 to what is actually supported: *the split is measured and published; whether it
 is adequate is not decided anywhere in the system.*
 
-### A coverage hole in the code under test
+### A coverage hole, found and closed
 
-`DP-PA-CHAIN-VERIFY` — **8 of 10 branches** (`verify_chain`, `audit_log.py`). The
-tests show that edited, deleted and reordered entries are detected, but never call
-it on a missing log or on a log with blank lines, so those two branches have no
-structural evidence behind `REQ-PA-004`. Left unfixed in the reference bundle on
-purpose: it is what the harness is for, and it would take two tests to close.
+The first reference run reported `DP-PA-CHAIN-VERIFY` at **8 of 10 branches**
+(`verify_chain`, `audit_log.py`). The tests showed that edited, deleted and
+reordered entries are detected, but never called it on a missing log or on a log
+with blank lines. Two tests closed it, and the bundle here is the run after.
+Closing them also made a limit explicit: a log that does not exist verifies as
+empty, so deleting the whole file is not detected. That is the same
+tamper-evident-not-tamper-proof boundary the system documents, and `REQ-PA-004`
+does not claim more.
 
 ### Final state
 
