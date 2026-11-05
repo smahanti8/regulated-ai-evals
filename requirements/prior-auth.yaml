@@ -1,0 +1,133 @@
+system: prior-auth-agent
+
+# Claims about the safety properties of the prior-authorization agent, pinned at
+# d883c58. Most of them are categorical refusals that verify without any
+# calibrated number. The one that rests on a threshold is the auto-finalization
+# gate, and the gate says so. Determination accuracy, retrieval quality and the
+# PHI boundary are declared out of scope below rather than omitted: an auditor
+# reading a matrix cannot tell a boundary from a gap unless both are written down.
+
+requirements:
+  - id: REQ-PA-001
+    statement: >
+      A criterion marked met carries both a non-empty policy quote and at least
+      one chart-side citation. A met claim missing either is rejected before any
+      determination is drafted.
+    rationale: >
+      Structured output guarantees the shape of an evidence row, not that a met
+      row carries support. An uncited met is not uncertainty a reviewer should
+      weigh; it is an unsupported assertion, and routing it to a human relaxes
+      the rule into a suggestion.
+    risk_class: decision_driving
+    acceptance: >
+      EvidenceClaim raises for status met with an empty policy_quote and for
+      status met with no non-blank citation. Non-met statuses need neither.
+      check_claims reports each violating row separately instead of stopping at
+      the first.
+
+  - id: REQ-PA-002
+    statement: >
+      A citation that does not resolve against the submitted bundle is stripped
+      and logged, and a met criterion with no surviving citation is downgraded
+      to insufficient.
+    rationale: >
+      A prompt cannot guarantee that a cited reference is real. Resolving each
+      citation against the bundle is a deterministic check, so a fabricated
+      reference cannot support a claim however confident the model sounds.
+    risk_class: decision_driving
+    acceptance: >
+      resolve_citations keeps citations that resolve, strips malformed or
+      unresolvable ones with a "CITATION STRIPPED" note in the summary, keeps the
+      criterion met only if at least one citation survives, downgrades it to
+      insufficient otherwise, and leaves non-met claims untouched.
+
+  - id: REQ-PA-003
+    statement: >
+      The determination drafter can emit only approve or insufficient_evidence.
+      The AI never drafts a denial; a human forms and owns any denial.
+    rationale: >
+      A drafted denial anchors the reviewer toward denying, which hollows out
+      human review even when the routing is technically correct.
+    risk_class: decision_driving
+    acceptance: >
+      The decision enum in the drafter's response schema is exactly
+      {approve, insufficient_evidence}, and the Determination type admits the
+      same two values.
+
+  - id: REQ-PA-004
+    statement: >
+      Decision logs are hash-chained: editing, deleting or reordering an entry
+      is detected on verification.
+    rationale: >
+      An audit trail that can be edited without trace is a narrative, not a
+      record. The chain makes casual tampering evident; it does not resist a
+      party who can rewrite the whole file, and this claim does not say it does.
+    risk_class: supportive
+    acceptance: >
+      verify_chain accepts an untouched log and raises ChainBrokenError after an
+      entry's content is edited, after an entry is deleted, and after entries
+      are reordered.
+
+  - id: REQ-PA-005
+    statement: >
+      Only an approval is finalized automatically, and only when its confidence
+      reaches the threshold and no required criterion is insufficient. Every
+      other case goes to a human.
+    behavioural_statement: >
+      Approvals at or above the configured confidence threshold with no required
+      criterion insufficient are routed to automatic finalization; every other
+      case is routed to review. Whether 0.85 is the right boundary is not
+      supported by evidence about this system.
+    rationale: >
+      Automatic finalization is the point at which the system acts and nobody
+      will overrule it. The rule that lets a draft through is therefore a
+      decision boundary, and a boundary needs evidence, not a round number.
+    risk_class: decision_driving
+    acceptance: >
+      confidence_gate routes an approve at or above the threshold with no gaps to
+      auto; routes an approve below the threshold to review; routes
+      insufficient_evidence to review at any confidence; routes an approve with a
+      required criterion insufficient to review at any confidence; and does not
+      force review for a non-required insufficient criterion alone.
+    thresholds: [THR-CONFIDENCE]
+
+  - id: REQ-PA-010
+    statement: >
+      The drafted determination agrees with clinical ground truth.
+    rationale: >
+      Named so that a bundle which says nothing about determination accuracy is
+      not read as having covered it.
+    risk_class: decision_driving
+    scope: out_of_scope
+    scope_note: >
+      Measured in prior-auth-agent's own golden evaluation (its EVALS.md), on
+      recorded model output. It is not asserted or re-measured in this run.
+    acceptance: >
+      Determination accuracy on a labelled set, with a stated interval.
+
+  - id: REQ-PA-011
+    statement: >
+      Retrieval surfaces the policy passage that each criterion is drawn from.
+    rationale: >
+      If retrieval returns the wrong policy, later reasoning can be sound and
+      the answer still wrong. That failure is invisible to the claims above.
+    risk_class: decision_driving
+    scope: out_of_scope
+    scope_note: >
+      Requires the vector store and the policy corpus. Retrieval quality is not
+      evaluated at the pinned revision.
+    acceptance: >
+      Recall of the labelled passage at the retrieval depth the pipeline uses.
+
+  - id: REQ-PA-012
+    statement: >
+      Patient data stays inside the deployment's PHI boundary.
+    rationale: >
+      An infrastructure property, not a property of the code exercised here.
+    risk_class: decision_driving
+    scope: out_of_scope
+    scope_note: >
+      The repository's Terraform is documentation-grade and has never been
+      applied, so there is no deployment to verify against.
+    acceptance: >
+      Evidence about a deployed environment.
