@@ -13,6 +13,11 @@ on:
 permissions:
   contents: read
 
+# A newer push to the same ref makes an older run redundant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Lint, tests, reference bundle
