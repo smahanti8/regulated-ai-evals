@@ -1,5 +1,7 @@
 # regulated-ai-evals
 
+![CI](https://github.com/smahanti8/regulated-ai-evals/actions/workflows/ci.yml/badge.svg)
+
 **An evaluation harness for AI systems that have to survive an audit.**
 
 Not a model. Not an application. The scaffolding a regulated AI product needs
