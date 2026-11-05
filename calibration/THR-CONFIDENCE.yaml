@@ -1,0 +1,14 @@
+threshold_id: THR-CONFIDENCE
+fitted_on:
+  id: prior-auth-determinations-v1
+  version: 1.0.0
+  content_hash: sha256:8f0bf8dd79f5644929b2f278a8b99d86fdca25651281d09db86582c807d9a1ae
+confirmed_on: null
+fitted_value: 0.85
+objective: keep wrong approve drafts out of automatic finalization at recall >= 0.90
+fitted_date: '2026-09-25'
+operating_point:
+  true_positives: 1
+  false_positives: 0
+  false_negatives: 0
+  true_negatives: 4
