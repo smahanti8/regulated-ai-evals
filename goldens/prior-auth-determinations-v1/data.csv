@@ -1,0 +1,14 @@
+case_id,decision,confidence,expected_decision,correct,wrong_approve
+case_001,approve,0.85,approve,true,false
+case_002,insufficient_evidence,0.90,insufficient_evidence,true,false
+case_003,insufficient_evidence,0.94,insufficient_evidence,true,false
+case_004,insufficient_evidence,0.55,approve,false,false
+case_006,approve,0.92,approve,true,false
+case_007,insufficient_evidence,0.72,approve,false,false
+case_008,approve,0.50,insufficient_evidence,false,true
+case_010,approve,0.86,approve,true,false
+case_011,insufficient_evidence,0.95,insufficient_evidence,true,false
+case_012,insufficient_evidence,0.90,approve,false,false
+case_013,approve,0.94,approve,true,false
+case_014,insufficient_evidence,0.90,insufficient_evidence,true,false
+case_015,insufficient_evidence,0.90,insufficient_evidence,true,false

@@ -1,0 +1,17 @@
+{
+  "id": "prior-auth-determinations-v1",
+  "version": "1.0.0",
+  "description": "Determinations drafted by prior-auth-agent on its own golden cases, with the decision each case's fixture says is correct.",
+  "data_file": "data.csv",
+  "data_file_hash": "sha256:bdc31e827b0514f7fb6d29da2293c9411f80a3a25830e054e50d3b3c1b6c13dd",
+  "label_field": "wrong_approve",
+  "provenance": {
+    "derived_from": "prior-auth-agent@d883c58647c723aee1a8adbded168f193f1ea2c7: evals/recorded/*.json (recorded model output, 2026-09-17 to 2026-09-17) and evals/golden/cases/*.yaml (ground_truth), via scripts/build_goldens.py",
+    "synthetic": true,
+    "contains_phi": false,
+    "deidentification": null,
+    "labelled_by": "the system's own golden fixtures, written by the same author as the system under test: NOT independent of it. Decisions and confidences are recorded model output, not fabricated",
+    "frozen_on": "2026-10-21"
+  },
+  "content_hash": "sha256:8f0bf8dd79f5644929b2f278a8b99d86fdca25651281d09db86582c807d9a1ae"
+}
