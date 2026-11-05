@@ -16,3 +16,6 @@ __pycache__/
 # Generated evidence. One reference bundle is committed under docs/example-bundle/
 # so the repo can be read without running anything; the rest is transient.
 evidence/
+
+# Output of scripts/check-reference-bundle.sh.
+rae-run.log
