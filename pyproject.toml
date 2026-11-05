@@ -1,0 +1,31 @@
+[project]
+name = "regulated-ai-evals"
+version = "0.1.0"
+description = "Evidence-producing evaluation harness for AI systems under regulatory constraint"
+requires-python = ">=3.11"
+dependencies = ["PyYAML>=6.0", "coverage>=7.0", "pytest>=8.0"]
+
+[project.optional-dependencies]
+# What the pinned prior-auth-agent imports at module level (through its
+# nodes package): its LLM client, vector store, settings loader and validation.
+# Needed to run tests/demo_prior_auth; no API call is made.
+demo = ["anthropic>=0.116.0", "chromadb>=0.5.0", "pydantic>=2.7.0", "python-dotenv>=1.0.0"]
+
+[project.scripts]
+rae = "regulated_ai_evals.cli:main"
+
+[project.entry-points.pytest11]
+regulated_ai_evals = "regulated_ai_evals.pytest_plugin"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/regulated_ai_evals"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src", ".sut/surgical-fhir-pipeline/src", ".sut/prior-auth-agent/src"]
+testpaths = ["tests"]
+markers = ["verifies(*req_ids): declares which requirements this test provides evidence for"]

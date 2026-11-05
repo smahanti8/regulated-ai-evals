@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+*.egg-info/
+.venv/
+
+# Intermediates handed between `rae run`'s subprocesses.
+.rae-trace.json
+.rae-coverage.json
+
+# Pinned clones of systems under test. Fetched by `rae fetch` at the SHA
+# recorded in sut.lock — never edited here, never committed.
+.sut/
+
+# Generated evidence. One reference bundle is committed under docs/example-bundle/
+# so the repo can be read without running anything; the rest is transient.
+evidence/

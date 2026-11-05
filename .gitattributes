@@ -1,0 +1,15 @@
+# Content hashes in this repository are computed over raw bytes. Git's
+# end-of-line normalisation would rewrite these files on checkout, so a Windows
+# clone would compute a different hash from a Linux one and `rae check` would
+# fail on one platform and pass on the other. Disable conversion for everything
+# that is hashed.
+
+goldens/**       -text
+docs/example-bundle/** -text
+
+# Source too: the .sut/ content hash covers whatever is on disk, and the same
+# reasoning applies to any system under test vendored by path.
+*.py             text eol=lf
+*.yaml           text eol=lf
+*.toml           text eol=lf
+*.md             text eol=lf
