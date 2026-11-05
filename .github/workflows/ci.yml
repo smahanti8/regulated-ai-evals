@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+# No API key is set. The demonstration suites call pure functions, and the
+# systems under test are fetched at the commits pinned in sut.lock.
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Lint, tests, reference bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: pip install -e ".[demo]" ruff
+
+      - name: Lint (ruff)
+        run: ruff check src/ tests/ scripts/ --select=E,F,W --ignore=E501,E402,E741
+
+      - name: Fetch the pinned systems under test
+        run: rae fetch
+
+      - name: Validate the register and golden sets
+        run: rae check
+
+      - name: Run every test (framework and demonstration suites)
+        run: pytest -q --no-header
+
+      - name: Reference bundle must stay reproducible
+        run: ./scripts/check-reference-bundle.sh
