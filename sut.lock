@@ -1,0 +1,16 @@
+# Pinned identities of the systems under test.
+#
+# `rae fetch` materialises each of these into .sut/ and refuses if what it gets
+# does not match the pin. The pin, not the working copy, is what an evidence
+# bundle names.
+
+systems:
+  - name: surgical-fhir-pipeline
+    kind: git
+    location: https://github.com/smahanti8/surgical-fhir-pipeline
+    pin: e61d181281ffb681545d2384c719cb556460915b
+
+  - name: prior-auth-agent
+    kind: git
+    location: https://github.com/smahanti8/prior-auth-agent
+    pin: d883c58647c723aee1a8adbded168f193f1ea2c7
